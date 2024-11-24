@@ -30,6 +30,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .message-list {
@@ -52,6 +53,12 @@ body {
 
 .message.ai {
   background-color: #2196F3;
+  color: white;
+  align-self: flex-start;
+}
+
+.message.langchain {
+  background-color: #9C27B0;
   color: white;
   align-self: flex-start;
 }

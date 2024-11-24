@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ChatInterface from './components/ChatInterface';
 import { generateResponse } from './utils/anthropic';
+import { processWithLangChain } from './utils/langchain';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -10,9 +11,14 @@ function App() {
     
     try {
       const aiResponse = await generateResponse(message);
-      setMessages(prevMessages => [...prevMessages, { type: 'ai', content: aiResponse }]);
+      const langChainResponse = await processWithLangChain(message);
+      setMessages(prevMessages => [
+        ...prevMessages, 
+        { type: 'ai', content: aiResponse },
+        { type: 'langchain', content: langChainResponse }
+      ]);
     } catch (error) {
-      console.error('Error getting AI response:', error);
+      console.error('Error getting response:', error);
       setMessages(prevMessages => [...prevMessages, { type: 'ai', content: 'Sorry, I encountered an error.' }]);
     }
   };
@@ -26,24 +32,3 @@ function App() {
 }
 
 export default App;
-index) => (
-            <div key={index} className={`message ${msg.type}`}>
-              {msg.content}
-            </div>
-          ))}
-        </div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-          />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
-  )
-}
-
-export default App
